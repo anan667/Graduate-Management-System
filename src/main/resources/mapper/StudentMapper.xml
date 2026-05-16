@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaee.gms_ex.mapper.StudentMapper">
+    <select id="findStudents" resultType="student">
+        select * from stu
+    </select>
+    <select id="findStudent" parameterType="String" resultType="Student" >
+        select * from stu where sno=#{sno};
+    </select>
+    <insert id="addStudent" parameterType="Student">
+        insert into stu(sno,sname,ssex,snative,mno) values(#{sno},#{sname},#{ssex},#{snative},#{mno});
+    </insert>
+    <update id="updateStudent" parameterType="Student">
+        update stu set sname=#{sname},ssex=#{ssex},snative=#{snative},mno=#{mno} where sno=#{sno};
+    </update>
+    <delete id="deleteStudent" parameterType="String">
+        delete from stu where sno=#{sno};
+    </delete>
+</mapper>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>课程信息管理</title>
+</head>
+<body>
+<h3>课程信息管理</h3>
+<table width="100%" border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border-color: #238FE7">
+    <tbody>
+    <tr>
+        <td>课程号</td><td>课程名</td><td>学时</td><td>操作</td>
+    </tr>
+    <tr th:each="course : ${pageInfo.list}" th:id="'c_' + ${course.cno}">
+        <td th:text="${course.cno}"></td>
+        <td th:text="${course.cname}"></td>
+        <td th:text="${course.period}"></td>
+        <td>
+            <div>
+                <a th:href="@{to_edit_course(cno=${course.cno})}">修改</a>
+                <a href="#" th:onclick="deleteCourse([[${course.cno}]]);">删除</a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总<span th:text="${pageInfo.pages}"></span> 页,共<span th:text="${pageInfo.total}"></span> 条记录</p>
+<a th:href="@{course_list}">首页</a>
+<a th:href="@{course_list(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
+<a th:href="@{course_list(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
+<a th:href="@{course_list(pageNum=${pageInfo.pages})}">尾页</a>
+<br/>
+<a th:href="@{to_add_course}">添加课程</a>
+
+<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script>
+    function deleteCourse(cno) {
+        if (!confirm("确定要删除该课程吗？")) return;
+        $.post("/delete_course", {"cno": cno}, function(data) {
+            if (data == "SUCCESS") {
+                $("#c_" + cno).remove();
+            } else {
+                alert("删除课程失败！");
+            }
+        });
+    }
+</script>
+</body>
+</html>

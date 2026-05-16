@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${studentOper=='1'}?'编辑学生信息':'添加学生信息'"></title>
+</head>
+<body>
+<form th:action="${studentOper=='1'}?'/edit_student':'/add_student'">
+    学号：<span th:if="${studentOper=='0'}"><input type="text" name="sno" placeholder="学号"></span>
+    <span th:if="${studentOper=='1'}"><span th:text="${student.sno}"></span> <input type="hidden" name="sno" th:value="${student.sno}"></span><br>
+    姓名：<input type="text" name="sname" placeholder="姓名" th:value="${studentOper=='1'}?${student.sname}:''"><br>
+    性别：<select name="ssex" id="select">
+    <option value="男" selected>男</option>
+    <option value="女">女</option>
+</select><br>
+    籍贯：<input type="text" name="snative" placeholder="籍贯" th:value="${studentOper=='1'}?${student.snative}:''"><br>
+    专业编号：<input type="number" name="mno" placeholder="专业编号" th:value="${studentOper=='1'}?${student.mno}:''"><br>
+    <input type="submit" th:value="${studentOper=='1'}?'修改':'添加'">
+</form>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理</title>
+</head>
+<body>
+<h3>学生信息管理</h3>
+<table width="100%" border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border-color: #238FE7">
+    <tbody><tr><td>学号</td><td>姓名</td><td>性别</td><td>籍贯</td><td>专业号</td><td>操作</td></tr>
+    <tr th:each="student:${pageInfo.list}" th:id="${student.sno}">
+        <td th:text="${student.sno}"></td>
+        <td th:text="${student.sname}"></td>
+        <td th:text="${student.ssex}"></td>
+        <td th:text="${student.snative}"></td>
+        <td th:text="${student.mno}"></td>
+        <td>
+            <div>
+                <a th:href="@{to_edit_student(sno=${student.sno})}">修改</a>
+                <a href="#" th:onclick="deleteStudent([[${student.sno}]]);">删除</a>
+            </div>
+        </td>
+    </tr>
+    </tbody></table>
+<p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总<span th:text="${pageInfo.pages}"></span> 页,共<span th:text="${pageInfo.total}"></span> 条记录</p>
+<a th:href="@{student_list}">首页</a>
+<a th:href="@{student_list(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
+<a th:href="@{student_list(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
+<a th:href="@{student_list(pageNum=${pageInfo.pages})}">尾页</a>
+<br><!--<button onclick="addStudent()">添加</button>--><a th:href="@{to_add_student}">添加</a>
+
+<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script>
+    function deleteStudent(sno) {
+        if (!confirm("确定要删除吗？"))
+            return;
+        $.post("/delete_student",{"sno":sno},
+            function(data){
+                if(data == "SUCCESS"){
+                    $("#" + sno).remove();
+                }else{
+                    alert("删除学生失败！");
+                }
+            });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${courseOper=='1'}? '编辑课程信息' : '添加课程信息'"></title>
+</head>
+<body>
+<form th:action="${courseOper=='1'} ? '/edit_course' : '/add_course'" method="post">
+    课程号：
+    <span th:if="${courseOper=='0'}">
+        <input type="number" name="cno" placeholder="课程号">
+    </span>
+    <span th:if="${courseOper=='1'}">
+        <span th:text="${course.cno}"></span>
+        <input type="hidden" name="cno" th:value="${course.cno}">
+    </span>
+    <br/>
+    课程名：<input type="text" name="cname" placeholder="课程名" th:value="${courseOper=='1'} ? ${course.cname} : ''"><br/>
+    学时：<input type="number" name="period" placeholder="学时" th:value="${courseOper=='1'} ? ${course.period} : ''"><br/>
+    <input type="submit" th:value="${courseOper=='1'} ? '修改' : '添加'">
+</form>
+</body>
+</html>
